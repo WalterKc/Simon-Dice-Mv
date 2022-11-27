@@ -8,10 +8,10 @@ actualizarEstado('Tocá "Empezar" para jugar!')
 function empezarJuego(){
     let Empezar=document.querySelector("#Empezar")
     Empezar.disabled=true
-    controlArraySimon(valorAleatorio())
+    controlArraySimon(obtenerCuadroAleatorio())
     actualizarEstado("Turno de la máquina")
     Ronda+=1
-    NumeroRonda(Ronda)
+    obtenerNumeroRonda(Ronda)
 }
 
 function controlArrayUsuario(event){
@@ -30,7 +30,7 @@ function resaltar(cuadro) {
     }, 500);
 }
 
-function valorAleatorio(){
+function obtenerCuadroAleatorio(){
     const cuadros = document.querySelectorAll('.cuadro');
     const indiceCuadros = Math.floor(Math.random() * cuadros.length);
     return cuadros[indiceCuadros];
@@ -39,36 +39,36 @@ function valorAleatorio(){
 function controlArraySimon(cuadro){
     let retraso=0
     ColoresSimon.push(cuadro)
-    for(let x=0;x<ColoresSimon.length;x++){
+    for(let i=0;i<ColoresSimon.length;i++){
         retraso+=1000
-        setTimeout(function (){resaltar(ColoresSimon[x])}, retraso);
+        setTimeout(function (){resaltar(ColoresSimon[i])}, retraso);
     }
     setTimeout(function(){ turno = true},(ColoresSimon.length*1000)+1000)
     setTimeout(function() {actualizarEstado("Turno del jugador");
       }, (ColoresSimon.length*1000)+1000);
 }
 
-function controlJuego(array1,objeto){
-    let Pasar_comprobacion=false
-    if(array1[ColoresJugador.length-1]!==objeto){
+function controlJuego(ArrayColoresSimon,CuadroSeleccionad){
+    let PasarComprobacion=false
+    if(ArrayColoresSimon[ColoresJugador.length-1]!==CuadroSeleccionad){
         perdiste()
     }
-    if(array1.length===ColoresJugador.length){
-        Pasar_comprobacion=true
+    if(ArrayColoresSimon.length===ColoresJugador.length){
+        PasarComprobacion=true
     }
-    if(Pasar_comprobacion){
+    if(PasarComprobacion){
         Ronda+=1
-        NumeroRonda(Ronda)
+        obtenerNumeroRonda(Ronda)
         turno=false
         ColoresJugador=[]
-        setTimeout(function (){ controlArraySimon(valorAleatorio())}, 500);
+        setTimeout(function (){ controlArraySimon(obtenerCuadroAleatorio())}, 500);
         setTimeout(function (){ actualizarEstado("Turno de la máquina")}, 500)
     }
 }
 
 function actualizarEstado(mensaje, perder = false) {
     const MensajeEstado = document.querySelector('#estado');
-    MensajeEstado.textContent = mensaje;
+    MensajeEstado.teitContent = mensaje;
     if (perder) {
         MensajeEstado.classList.remove('alert-primary');
         MensajeEstado.classList.add('alert-danger');
@@ -78,8 +78,8 @@ function actualizarEstado(mensaje, perder = false) {
     }
 }
 
-function NumeroRonda(ronda) {
-    document.querySelector('#ronda').textContent = ronda;
+function obtenerNumeroRonda(ronda) {
+    document.querySelector('#ronda').teitContent = ronda;
 }
 
 function perdiste(){
@@ -91,7 +91,7 @@ function perdiste(){
     let Empezar=document.querySelector("#Empezar")
     Empezar.disabled=false
     actualizarEstado('Perdiste! Tocá "Empezar" para jugar de nuevo!',true)
-    NumeroRonda(Ronda)
+    obtenerNumeroRonda(Ronda)
     
 }
 
